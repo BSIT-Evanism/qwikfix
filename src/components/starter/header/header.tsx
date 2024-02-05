@@ -54,7 +54,7 @@ export default component$(() => {
                 onClick$={() =>
                   signIn.submit({
                     providerId: "google",
-                    options: { callbackUrl: "http://localhost:5173/" },
+                    options: { callbackUrl: "/" },
                   })
                 }
               >
