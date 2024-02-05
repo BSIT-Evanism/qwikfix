@@ -1,16 +1,19 @@
-import { component$ } from "@builder.io/qwik";
+import { $, component$, useTask$ } from "@builder.io/qwik";
 import { QwikLogo } from "../icons/qwik";
 import styles from "./header.module.css";
-import {
-  useAuthSession,
-  useAuthSignin,
-  useAuthSignout,
-} from "~/routes/plugin@auth";
+import { supabase } from "~/utils/supabase";
 
 export default component$(() => {
-  const session = useAuthSession();
-  const signIn = useAuthSignin();
-  const signOut = useAuthSignout();
+  const handleAuth = $(async () => {
+    const data = await supabase.auth.getSession();
+
+    if (!data.data.session) {
+      await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+      console.log("logged in");
+    }
+  });
 
   return (
     <header class={styles.header}>
@@ -45,27 +48,9 @@ export default component$(() => {
               Tutorials
             </a>
           </li>
-          {session.value?.user?.name !== undefined && (
-            <h3>{session.value.user.email}</h3>
-          )}
-          {session.value?.user?.name === undefined ? (
-            <li>
-              <button
-                onClick$={() =>
-                  signIn.submit({
-                    providerId: "google",
-                    options: { callbackUrl: "/" },
-                  })
-                }
-              >
-                Sign In
-              </button>
-            </li>
-          ) : (
-            <button onClick$={() => signOut.submit({ callbackUrl: "/" })}>
-              Sign Out
-            </button>
-          )}
+          <li>
+            <button onClick$={() => handleAuth()}>Sign In</button>
+          </li>
         </ul>
       </div>
     </header>
