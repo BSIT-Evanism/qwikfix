@@ -10,6 +10,9 @@ export default component$(() => {
     if (!data.data.session) {
       await supabase.auth.signInWithOAuth({
         provider: "google",
+        options: {
+          redirectTo: "/"
+        }
       });
       console.log("logged in");
     }
