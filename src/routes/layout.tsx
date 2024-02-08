@@ -18,6 +18,8 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
+
+
 export const useServerTimeLoader = routeLoader$(() => {
   return {
     date: new Date().toISOString(),
@@ -26,6 +28,7 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
   useStyles$(styles);
+
   return (
     <>
       <Header />

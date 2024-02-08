@@ -1,21 +1,23 @@
 import { $, component$ } from "@builder.io/qwik";
 import { QwikLogo } from "../icons/qwik";
 import styles from "./header.module.css";
-import { supabase } from "~/utils/supabase";
+import { createBrowserClient } from "supabase-auth-helpers-qwik";
 
 export default component$(() => {
-  const handleAuth = $(async () => {
-    const data = await supabase.auth.getSession();
 
-    if (!data.data.session) {
-      await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: "/"
-        }
-      });
-      console.log("logged in");
-    }
+  
+  const handleAuth = $(async() => {
+    const supabase = createBrowserClient(
+      import.meta.env.PUBLIC_SUPABASE_URL,
+      import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+    );
+    
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: "https://qwik.builder.io",
+      }
+    })
   });
 
   return (
