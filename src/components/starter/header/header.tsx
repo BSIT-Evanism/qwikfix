@@ -1,24 +1,15 @@
 import { $, component$ } from "@builder.io/qwik";
 import { QwikLogo } from "../icons/qwik";
+import { Form } from "@builder.io/qwik-city";
 import styles from "./header.module.css";
-import { createBrowserClient } from "supabase-auth-helpers-qwik";
+import { useAuthSession, useAuthSignin, useAuthSignout } from "~/routes/plugin@auth";
 
 export default component$(() => {
 
+  const handleSignIn = useAuthSignin();
+  const handleSignOut = useAuthSignout();
+  const session = useAuthSession();
   
-  const handleAuth = $(async() => {
-    const supabase = createBrowserClient(
-      import.meta.env.PUBLIC_SUPABASE_URL,
-      import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-    );
-    
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: "https://qwik.builder.io",
-      }
-    })
-  });
 
   return (
     <header class={styles.header}>
@@ -54,7 +45,22 @@ export default component$(() => {
             </a>
           </li>
           <li>
-            <button onClick$={() => handleAuth()}>Sign In</button>
+            <h4>
+              {session.value?.user?.email || "Not signed in"}
+            </h4>
+          </li>
+          <li>
+            <Form action={handleSignIn}>
+              <input type="hidden" name="providerId" value="google" />
+              <input type="hidden" name="options.callbackUrl" value="http://localhost:5173" />
+              <button>Sign In</button>
+            </Form>
+          </li>
+          <li>
+            <Form action={handleSignOut}>
+              <input type="hidden" name="callbackUrl" value="http://localhost:5173" />
+              <button>Sign Out</button>
+            </Form>
           </li>
         </ul>
       </div>
