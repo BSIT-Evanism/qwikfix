@@ -1,4 +1,4 @@
-import { $, component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { QwikLogo } from "../icons/qwik";
 import { Form } from "@builder.io/qwik-city";
 import styles from "./header.module.css";
