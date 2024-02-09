@@ -56,7 +56,7 @@ export default component$(() => {
             <li>
               <Form action={handleSignIn}>
                 <input type="hidden" name="providerId" value="google" />
-                <input type="hidden" name="options.callbackUrl" value={import.meta.env.PUBLIC_PRODUCTION !== undefined ? "https://qwikfix.vercel.app" : "http://localhost:5173"} />
+                <input type="hidden" name="options.callbackUrl" value={import.meta.env.PUBLIC_PRODUCTION === "https://qwikfix.vercel.app" ? "https://qwikfix.vercel.app" : "http://localhost:5173"} />
                 <button>Sign In</button>
               </Form>
             </li>
@@ -64,7 +64,7 @@ export default component$(() => {
 
             <li>
               <Form action={handleSignOut}>
-                <input type="hidden" name="callbackUrl" value={import.meta.env.PUBLIC_PRODUCTION !== undefined ? "https://qwikfix.vercel.app" : "http://localhost:5173"} />
+                <input type="hidden" name="callbackUrl" value={import.meta.env.PUBLIC_PRODUCTION === "https://qwikfix.vercel.app" ? "https://qwikfix.vercel.app" : "http://localhost:5173"} />
                 <button>Sign Out</button>
               </Form>
             </li>
