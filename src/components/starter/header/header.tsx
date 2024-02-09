@@ -9,7 +9,7 @@ export default component$(() => {
   const handleSignIn = useAuthSignin();
   const handleSignOut = useAuthSignout();
   const session = useAuthSession();
-  
+
 
   return (
     <header class={styles.header}>
@@ -49,19 +49,24 @@ export default component$(() => {
               {session.value?.user?.email || "Not signed in"}
             </h4>
           </li>
-          <li>
-            <Form action={handleSignIn}>
-              <input type="hidden" name="providerId" value="google" />
-              <input type="hidden" name="options.callbackUrl" value="http://localhost:5173" />
-              <button>Sign In</button>
-            </Form>
-          </li>
-          <li>
-            <Form action={handleSignOut}>
-              <input type="hidden" name="callbackUrl" value="http://localhost:5173" />
-              <button>Sign Out</button>
-            </Form>
-          </li>
+          {session.value?.user?.name === undefined ? (
+
+            <li>
+              <Form action={handleSignIn}>
+                <input type="hidden" name="providerId" value="google" />
+                <input type="hidden" name="options.callbackUrl" value="http://localhost:5173" />
+                <button>Sign In</button>
+              </Form>
+            </li>
+          ) : (
+
+            <li>
+              <Form action={handleSignOut}>
+                <input type="hidden" name="callbackUrl" value="http://localhost:5173" />
+                <button>Sign Out</button>
+              </Form>
+            </li>
+          )}
         </ul>
       </div>
     </header>
