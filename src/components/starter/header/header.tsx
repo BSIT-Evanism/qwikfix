@@ -48,6 +48,7 @@ export default component$(() => {
             <h4>
               {session.value?.user?.email || "Not signed in"}
               {import.meta.env.PRODUCTION !== undefined ? "" : " (Production)"}
+              {import.meta.env.DEVER}
             </h4>
           </li>
           {session.value?.user?.name === undefined ? (
